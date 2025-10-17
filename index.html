@@ -1,1 +1,77 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Captcha Solver</title>\n    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">\n</head>\n<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">\n    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">\n        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Captcha Solver</h1>\n\n        <div class="mb-6 flex justify-center">\n            <img id="captchaImage" src="sample.png" alt="Captcha Image" class="max-w-full h-auto border border-gray-300 rounded-md">\n        </div>\n\n        <div class="mb-4">\n            <label for="captchaInput" class="block text-gray-700 text-sm font-bold mb-2">\n                Enter Captcha:\n            </label>\n            <input type="text" id="captchaInput" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Your answer">\n        </div>\n\n        <button id="submitButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">\n            Submit\n        </button>\n\n        <p id="message" class="mt-4 text-center text-sm text-gray-600"></p>\n    </div>\n\n    <script>\n        document.addEventListener('DOMContentLoaded', () => {\n            const captchaImage = document.getElementById('captchaImage');\n            const captchaInput = document.getElementById('captchaInput');\n            const submitButton = document.getElementById('submitButton');\n            const message = document.getElementById('message');\n\n            // Function to parse URL parameters\n            const getUrlParameter = (name) => {\n                name = name.replace(/[\\[]/, '\\\[').replace(/[\\]]/, '\\\]');\n                const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');\n                const results = regex.exec(location.search);\n                return results === null ? '' : decodeURIComponent(results[1].replace(/\\+/g, ' '));\n            };\n\n            // Check for 'url' parameter\n            const imageUrl = getUrlParameter('url');\n            if (imageUrl) {\n                captchaImage.src = imageUrl;\n            } else {\n                captchaImage.src = 'sample.png'; // Default to attached sample\n            }\n\n            submitButton.addEventListener('click', () => {\n                const answer = captchaInput.value.trim();\n                if (answer) {\n                    message.textContent = `You submitted: "${answer}". (This is a placeholder for actual validation.)`;\n                    message.classList.remove('text-red-500');\n                    message.classList.add('text-green-500');\n                    captchaInput.value = ''; // Clear input after submission\n                } else {\n                    message.textContent = 'Please enter your captcha solution.';\n                    message.classList.remove('text-green-500');\n                    message.classList.add('text-red-500');\n                }\n            });\n\n            // Optional: allow pressing Enter to submit\n            captchaInput.addEventListener('keypress', (event) => {\n                if (event.key === 'Enter') {\n                    submitButton.click();\n                }\n            });\n        });\n    </script>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Solver</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center text-gray-100 mb-6">Captcha Solver</h1>
+
+        <div class="mb-6 flex justify-center">
+            <img id="captchaImage" src="sample.png" alt="Captcha Image" class="max-w-full h-auto border border-gray-700 rounded-md">
+        </div>
+
+        <div class="mb-4">
+            <label for="captchaInput" class="block text-gray-300 text-sm font-bold mb-2">
+                Enter Captcha:
+            </label>
+            <input type="text" id="captchaInput" class="shadow appearance-none border border-gray-700 bg-gray-700 rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline" placeholder="Your answer">
+        </div>
+
+        <button id="submitButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+            Submit
+        </button>
+
+        <p id="message" class="mt-4 text-center text-sm text-gray-400"></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const captchaImage = document.getElementById('captchaImage');
+            const captchaInput = document.getElementById('captchaInput');
+            const submitButton = document.getElementById('submitButton');
+            const message = document.getElementById('message');
+
+            // Function to parse URL parameters
+            const getUrlParameter = (name) => {
+                name = name.replace(/[\\[]/, '\\[').replace(/[\\]]/, '\\\]');
+                const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                const results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\\+/g, ' '));
+            };
+
+            // Check for 'url' parameter
+            const imageUrl = getUrlParameter('url');
+            if (imageUrl) {
+                captchaImage.src = imageUrl;
+            } else {
+                captchaImage.src = 'sample.png'; // Default to attached sample
+            }
+
+            submitButton.addEventListener('click', () => {
+                const answer = captchaInput.value.trim();
+                if (answer) {
+                    message.textContent = `You submitted: "${answer}". (This is a placeholder for actual validation.)`;
+                    message.classList.remove('text-red-500');
+                    message.classList.add('text-green-500');
+                    captchaInput.value = ''; // Clear input after submission
+                } else {
+                    message.textContent = 'Please enter your captcha solution.';
+                    message.classList.remove('text-green-500');
+                    message.classList.add('text-red-500');
+                }
+            });
+
+            // Optional: allow pressing Enter to submit
+            captchaInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    submitButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
